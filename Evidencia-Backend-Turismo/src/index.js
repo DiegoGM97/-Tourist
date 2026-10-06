@@ -30,6 +30,10 @@ const swaggerOptions = {
       {
         url: `http://localhost:${PORT}`,
         description: 'Servidor de desarrollo'
+      },
+      {
+        url: 'https://turistico-zx83.onrender.com',
+        description: 'Producción'
       }
     ],
     components: {
@@ -275,7 +279,15 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-app.use(cors());
+const allowedOrigins = [
+  'https://tourist-one-theta.vercel.app',
+  `http://localhost:${PORT}`,
+  'http://localhost:5173'
+];
+
+app.use(cors({
+  origin: allowedOrigins
+}));
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
